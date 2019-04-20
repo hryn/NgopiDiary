@@ -28,32 +28,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
-        super.onMessageReceived(remoteMessage)
-        remoteMessage?.let { message ->
-            Log.i(TAG, message.data["message"])
-
-            notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-            //Setting up Notification channels for android O and above
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                setupNotificationChannels()
-            }
-            val notificationId = Random().nextInt(60000)
-
-            val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            val notificationBuilder = NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                    .setSmallIcon(R.mipmap.ic_launcher)  //a resource for your custom small icon
-                    .setContentTitle(message.data["title"]) //the "title" value you sent in your notification
-                    .setContentText(message.data["message"]) //ditto
-                    .setAutoCancel(true)  //dismisses the notification on click
-                    .setSound(defaultSoundUri)
-
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-            notificationManager.notify(notificationId /* ID of notification */, notificationBuilder.build())
-
-        }
-
+        // Handle FCM messages here.
+        // If the application is in the foreground handle both data and notification messages here.
+        // Also if you intend on generating your own notifications as a result of a received FCM
+        // message, here is where that should be initiated.
+        Log.d(TAG, "From: " + remoteMessage!!.from)
+        Log.d(TAG, "Notification Message Body: " + remoteMessage.notification?.body!!)
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -13,14 +13,17 @@ import com.androidnetworking.error.ANError
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.common.Priority
 import com.androidnetworking.interfaces.OkHttpResponseAndStringRequestListener
+import com.google.firebase.FirebaseApp
+import com.google.firebase.iid.FirebaseInstanceId
 import okhttp3.Response
+import java.io.IOException
 import java.util.*
 
 class ListActivity : AppCompatActivity(){
 
     private val TAG = ListActivity::class.java.simpleName
     private lateinit var adapter: ItemAdapter
-    private val mNotificationTime = Calendar.getInstance().timeInMillis + 10000 //Set after 5 seconds from the current time.
+    private val mNotificationTime = Calendar.getInstance().timeInMillis + 5000 //Set after 5 seconds from the current time.
     private var mNotified = false
 
 
@@ -30,9 +33,8 @@ class ListActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_chat)
 
-        if (!mNotified) {
-            NotificationUtils().setNotification(mNotificationTime, this@ListActivity)
-        }
+        FirebaseApp.initializeApp(this)
+        initView()
 
         val intent = intent
         val message = intent.getStringExtra("message")
@@ -76,6 +78,10 @@ class ListActivity : AppCompatActivity(){
                         val check = Gson().fromJson<DataModel>(result, DataModel::class.java)
                         title_text?.text = check.title
                         adapter.update(check.items!!)*/
+
+                        if (!mNotified) {
+                            NotificationUtils().setNotification(mNotificationTime, this@ListActivity)
+                        }
                     }
 
                     override fun onError(error: ANError?) {
@@ -161,8 +167,19 @@ class ListActivity : AppCompatActivity(){
                     }
 
                 })*/
+    }
 
 
+
+    private fun initView() {
+        //This method will use for fetching Token
+        Thread(Runnable {
+            try {
+                Log.i(TAG, FirebaseInstanceId.getInstance().getToken(getString(R.string.SENDER_ID), "FCM"))
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }).start()
     }
 
 

@@ -20,9 +20,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login2)
 
-        FirebaseApp.initializeApp(this)
-        initView()
-
         val defaultEmail: String = "hello@utama.ac.id"
         val defaultPassword: String = "1234"
 
@@ -65,17 +62,5 @@ class LoginActivity : AppCompatActivity() {
         btn_signup.setOnClickListener {
 
         }
-    }
-
-
-    private fun initView() {
-        //This method will use for fetching Token
-        Thread(Runnable {
-            try {
-                Log.i(TAG, FirebaseInstanceId.getInstance().getToken(getString(R.string.SENDER_ID), "FCM"))
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }).start()
     }
 }
