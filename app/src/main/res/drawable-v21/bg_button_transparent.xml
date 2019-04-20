@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#BDBDBD"
+    android:exitFadeDuration="@android:integer/config_shortAnimTime">
+    <item android:id="@android:id/mask">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+            <solid android:color="#BDBDBD" />
+            <corners android:radius="5dp"/>
+        </shape>
+    </item>
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <corners android:radius="5dp"/>
+        </shape>
+    </item>
+
+</ripple>
